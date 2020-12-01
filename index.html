@@ -11,24 +11,24 @@
 <body>
     <header>
         <h1>Who's that Pokemon?!</h1>
-        <p>
-            Looked at the jumbled work provided and write in the correct spelling of the Pokemon!
-        </p>
-        <button class="restart">Restart</button>
+        <p class="pokemonIncluded">(Pokemon 1-151 only!)</p>
+        <button class="btn restart">Restart</button>
+
+        <div class="jumble">????</div>
     </header>
 
     <main>
-        <span class="jumble"></span>
-
         <section class="left">
             <input type="text" class="guess" />
-            <button class="check">Check!</button>
+            <button class="btn check">Check!</button>
         </section>
 
         <section class="right">
-            <p class="message"></p>
-            <p class="scoreContainer">Score: <span class="score">0</span></p>
-            <button class="skip">Skip</button>
+            <p class="message">Start guessing...</p>
+            <p class="scoreContainer">💯Score: <span class="score">0</span></p>
+            <p class="highscoreContainer">
+                🥇Highscore: <span class="highscore">0</span>
+            </p>
         </section>
     </main>
 

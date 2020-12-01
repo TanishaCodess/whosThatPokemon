@@ -1,8 +1,7 @@
-//make an API call to pokemon
-
+//make a call to pokemon API using ID
 fetch(
-        // generate a random pokemon name using randomized ID# (API has pokemon 1-898)
-        `https://pokeapi.co/api/v2/pokemon/${Math.floor(Math.random() * 898 + 1)}/`
+        // generate a random pokemon name using randomized ID# (API has pokemon 1-898 but Im only using 1-151)
+        `https://pokeapi.co/api/v2/pokemon/${Math.floor(Math.random() * 151 + 1)}/`
     )
     .then(function(response) {
         return response.json();
@@ -18,12 +17,34 @@ fetch(
 
         // display the jumbled word
         document.querySelector(".jumble").textContent = jumble;
+
+        // set initual score and highscore
+        let score = 20;
+        let highscore = 0;
+
+        // on click of check button compare user input 'guess' against answer
+        document.querySelector(".check").addEventListener("click", function() {
+            // make sure its all lowercase
+            const guess = document.querySelector(".guess").value.toLowerCase();
+            console.log(guess);
+
+            //Display correct answer or guess again & increase score
+            if (!guess) {
+                document.querySelector(".message").textContent = "No guess entered!";
+            } else if (guess === pokeName) {
+                document.querySelector(
+                    ".message"
+                ).textContent = `Thats correct! It's ${pokeName}!`;
+            } else if (guess != pokeName) {
+                document.querySelector(".message").textContent = `Guess again!`;
+            }
+        });
     })
     .catch(function(err) {
         console.warn("Something went wrong.", err);
     });
 
-// shuffle function that makes letter palcement more random
+// shuffle function that makes letter palcement in jumble more random
 String.prototype.shuffle = function() {
     var a = this.split(""),
         n = a.length;
@@ -36,11 +57,6 @@ String.prototype.shuffle = function() {
     }
     return a.join("");
 };
-
-//take user input guess
-// error handle for capitals
-// check against answer pokemon word(no jumbled) // CHECK BUTTON
-//display right or wrong in .message section
 
 // RESTART BUTTON
 // rest score
