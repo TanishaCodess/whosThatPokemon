@@ -5,7 +5,7 @@ let pokeNameJumbled = "";
 // function that calls the Pokemon API to retrieve a random pokemon name
 const getPokemonName = function() {
     fetch(
-            // generate a random pokemon name using randomized ID# (API has pokemon 1-898 but Im only using 1-151)
+            // get a random pokemon name using randomized ID# (API has pokemon 1-898 but Im only using 1-151)
             `https://pokeapi.co/api/v2/pokemon/${Math.floor(Math.random() * 151 + 1)}/`
         )
         .then(function(response) {
@@ -47,6 +47,12 @@ const checkName = function() {
         document.querySelector(
             ".message"
         ).textContent = `Thats correct! It's ${pokeName}!`;
+
+        //highscore
+        if (score > highscore) {
+            highscore = score;
+            document.querySelector(".highscore").textContent = highscore;
+        }
         //If guess is wrong
     } else if (guess != pokeName) {
         document.querySelector(".message").textContent = `Guess again!`;
@@ -76,7 +82,7 @@ document.querySelector(".again").addEventListener("click", function() {
     tryAgain();
 });
 
-// jumble function
+// jumble function from SO
 String.prototype.shuffle = function() {
     var a = this.split(""),
         n = a.length;
