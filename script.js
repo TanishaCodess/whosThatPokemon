@@ -14,7 +14,6 @@ const getPokemonName = function() {
         .then(function(data) {
             //real name of Pokemon from API
             const pokeName = data.name;
-            console.log(pokeName);
             // jumbled name of Pokemon
             const pokeNameJumbled = pokeName.shuffle();
             //function to display the jumbled name and bring the real name out of the fetch scope
