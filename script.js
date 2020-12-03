@@ -7,7 +7,7 @@ fetch(
         return response.json();
     })
     .then(function(data) {
-        // take random name and store it to be reffered to later in answer
+        // take random name and store it
         let pokeName = data.name;
         console.log(pokeName);
 
@@ -28,15 +28,20 @@ fetch(
             const guess = document.querySelector(".guess").value.toLowerCase();
             console.log(guess);
 
-            //Display correct answer or guess again & increase score
+            //If there is no guess
             if (!guess) {
                 document.querySelector(".message").textContent = "No guess entered!";
+                //If guess is correct
             } else if (guess === pokeName) {
                 document.querySelector(
                     ".message"
                 ).textContent = `Thats correct! It's ${pokeName}!`;
+
+                //If guess is wrong
             } else if (guess != pokeName) {
                 document.querySelector(".message").textContent = `Guess again!`;
+                score--;
+                document.querySelector(".score").textContent = score;
             }
         });
     })
@@ -58,9 +63,10 @@ String.prototype.shuffle = function() {
     return a.join("");
 };
 
-// RESTART BUTTON
-// rest score
-// fetch new jumbled word
-
-//SKIP BUTTON
-// new jumbled word
+// Again BUTTON
+// reset score
+// reset input
+//rest word
+document.querySelector(".again").addEventListener("click", function() {
+    document.querySelector(".guess").value = "";
+});
