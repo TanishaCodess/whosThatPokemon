@@ -1,59 +1,78 @@
-//make a call to pokemon API using ID
-fetch(
-        // generate a random pokemon name using randomized ID# (API has pokemon 1-898 but Im only using 1-151)
-        `https://pokeapi.co/api/v2/pokemon/${Math.floor(Math.random() * 151 + 1)}/`
-    )
-    .then(function(response) {
-        return response.json();
-    })
-    .then(function(data) {
-        // take random name and store it
-        let pokeName = data.name;
-        console.log(pokeName);
+// declare variables for the original name and the jumbled name to use later
+let pokeName = "";
+let pokeNameJumbled = "";
 
-        // jumble the letters of the word
-        let jumble = pokeName.shuffle();
-        console.log(jumble);
-
-        // display the jumbled word
-        document.querySelector(".jumble").textContent = jumble;
-
-        // set initual score and highscore
-        let score = 20;
-        let highscore = 0;
-
-        // on click of check button compare user input 'guess' against answer
-        document.querySelector(".check").addEventListener("click", function() {
-            // make sure its all lowercase
-            const guess = document.querySelector(".guess").value.toLowerCase();
-            console.log(guess);
-
-            //If there is no guess
-            if (!guess) {
-                document.querySelector(".message").textContent = "No guess entered!";
-                //If guess is correct
-            } else if (guess === pokeName) {
-                document.querySelector(
-                    ".message"
-                ).textContent = `Thats correct! It's ${pokeName}!`;
-
-                //If guess is wrong
-            } else if (guess != pokeName) {
-                document.querySelector(".message").textContent = `Guess again!`;
-                score--;
-                document.querySelector(".score").textContent = score;
-            }
+// make the API call a function so I can call for a new word without refreshing the page
+const getPokemonName = function() {
+    //make a call to pokemon API using ID
+    fetch(
+            // generate a random pokemon name using randomized ID# (API has pokemon 1-898 but Im only using 1-151)
+            `https://pokeapi.co/api/v2/pokemon/${Math.floor(Math.random() * 151 + 1)}/`
+        )
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(data) {
+            //real name of Pokemon from API
+            const pokeName = data.name;
+            // jumbled name of Pokemon
+            const pokeNameJumbled = pokeName.shuffle();
+            //function to display the jumbled name and bring the real name out of the fetch scope
+            displayInfomation(pokeName, pokeNameJumbled);
         });
-    })
-    .catch(function(err) {
-        console.warn("Something went wrong.", err);
-    });
+};
 
-// shuffle function that makes letter palcement in jumble more random
+//function to display jumbled name
+const displayInfomation = function(name, jumbledName) {
+    pokeName = name;
+    pokeNameJumbled = jumbledName;
+    const domJumble = document.querySelector(".jumble");
+    domJumble.textContent = jumbledName;
+};
+
+// Function for again button to get another name to guess
+const tryAgain = function() {
+    // reset the input
+    document.querySelector(".guess").value = "";
+    // generate new jumbled word/display
+    getPokemonName();
+};
+
+// Function to check the guess against the real name
+const checkName = function() {
+    // make sure its all lowercase
+    const guess = document.querySelector(".guess").value.toLowerCase();
+    //If there is no guess
+    if (!guess) {
+        document.querySelector(".message").textContent = "No guess entered!";
+        //If guess is correct
+    } else if (guess === pokeName) {
+        document.querySelector(
+            ".message"
+        ).textContent = `Thats correct! It's ${pokeName}!`;
+        //If guess is wrong
+    } else if (guess != pokeName) {
+        document.querySelector(".message").textContent = `Guess again!`;
+        score--;
+        document.querySelector(".score").textContent = score;
+    }
+};
+getPokemonName();
+
+// on click of check button compare user input 'guess' against answer
+document.querySelector(".check").addEventListener("click", function() {
+    checkName();
+});
+
+// Again BUTTON
+document.querySelector(".again").addEventListener("click", function() {
+    tryAgain();
+});
+
+// jumble function
 String.prototype.shuffle = function() {
     var a = this.split(""),
         n = a.length;
-
     for (var i = n - 1; i > 0; i--) {
         var j = Math.floor(Math.random() * (i + 1));
         var tmp = a[i];
@@ -62,11 +81,3 @@ String.prototype.shuffle = function() {
     }
     return a.join("");
 };
-
-// Again BUTTON
-// reset score
-// reset input
-//rest word
-document.querySelector(".again").addEventListener("click", function() {
-    document.querySelector(".guess").value = "";
-});
