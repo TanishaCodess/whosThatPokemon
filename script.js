@@ -29,23 +29,25 @@ const displayInfomation = function(name, jumbledName) {
     const domJumble = document.querySelector(".jumble");
     domJumble.textContent = jumbledName;
 };
+// function to display text in .message
+const displayMessage = function(message) {
+    document.querySelector(".message").textContent = message;
+};
 
 // score and highscore variables at default
 let score = 20;
 let highscore = 0;
-document.querySelector(".score").textContent = score;
+
 // Function to check the guess against the real name
 const checkName = function() {
     // make sure its all lowercase
     const guess = document.querySelector(".guess").value.toLowerCase();
     //If there is no guess
     if (!guess) {
-        document.querySelector(".message").textContent = "No guess entered!";
+        displayMessage("No guess entered!");
         //If guess is correct
     } else if (guess === pokeName) {
-        document.querySelector(
-            ".message"
-        ).textContent = `Thats correct! It's ${pokeName}!`;
+        displayMessage(`Thats correct! It's ${pokeName}!`);
 
         //highscore
         if (score > highscore) {
@@ -54,7 +56,7 @@ const checkName = function() {
         }
         //If guess is wrong
     } else if (guess != pokeName) {
-        document.querySelector(".message").textContent = `Guess again!`;
+        displayMessage(`Guess again!`);
         score--;
         document.querySelector(".score").textContent = score;
     }
